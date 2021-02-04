@@ -1,0 +1,19 @@
+.today{
+    padding: 50px;
+    width: 600px;
+    height: 300px;
+    text-align: center;
+    border: 1px solid rgb(179, 171, 171);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px 0 #a1a1a1;
+}
+
+.today span{
+    padding: 20px;
+}
+
+.today .big{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
