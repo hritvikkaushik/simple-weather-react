@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import Aux from '../../hoc/Auxiliary';
 import classes from './TopBar.css';
 import axios from 'axios';
+import PlaceContext from '../../context/place-context';
 
 
 const key = 'pk.eyJ1IjoiaHJpdHZpa2thdXNoaWsiLCJhIjoiY2trcjZhb2ZoMDQ5bzJ3b2kya2U5dGMzYiJ9.SGtqS1r9nXypWmlBnwCbXQ';
@@ -13,6 +14,7 @@ class topBar extends Component {
     state = {
         suggestions: [],
         boxVisible: false,
+        place: {},
     }
 
     searchingHandler = (event) => {
@@ -45,9 +47,8 @@ class topBar extends Component {
     }
 
     clickHandler = (place) => {
-        console.log(place.place_name);
-        console.log(place.id);
-        console.log(place.text);
+        this.props.placeSetter(place);
+        this.setState({place: place, boxVisible: false, suggestions: []});
     }
 
     render() {
@@ -67,9 +68,11 @@ class topBar extends Component {
                 <div className={classes.Bar}>
                     <input className={classes.Box} onChange={this.searchingHandler} type="text" placeholder="Search for city..."/>
                 </div>
-                <div className={this.state.boxVisible?classes.SearchSuggestions:null}>
-                    {searchSuggestions}
-                </div>
+                <PlaceContext.Provider value={this.state.place}>
+                    <div className={this.state.boxVisible?classes.SearchSuggestions:null}>
+                        {searchSuggestions}
+                    </div>
+                </PlaceContext.Provider>
             </Aux>
         )
     }
