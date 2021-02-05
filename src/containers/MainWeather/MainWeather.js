@@ -10,7 +10,7 @@ const APIkey = '57048db528742215f7c88cacad06902c';
 class MainWeather extends Component{
 
     state = {
-        selectedCity: 'Boston',
+        selectedCity: 'Delhi',
         // makerequest: true
     }
 // api.openweathermap.org/data/2.5/weather?q=London&appid=57048db528742215f7c88cacad06902c

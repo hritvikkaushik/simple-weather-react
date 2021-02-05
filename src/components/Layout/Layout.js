@@ -1,11 +1,12 @@
 import React from 'react';
 import Auxiliary from '../../hoc/Auxiliary'
+import TopBar from '../../containers/TopBar/TopBar';
 
 import classes from './Layout.css';
 
 const layout = (props) => (
     <Auxiliary>
-        <div>Search Bar</div>
+        <TopBar/>
         <main className={classes.Content}>
             {props.children}
         </main>
