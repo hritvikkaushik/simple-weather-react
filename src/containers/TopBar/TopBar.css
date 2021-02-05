@@ -10,7 +10,7 @@
 
 .Box{
     margin: auto;
-    width: 50%;
+    width: 65%;
     height: 25px;
     border-radius: 25px;
     padding-left: 20px;
@@ -19,10 +19,10 @@
 
 .SearchSuggestions{
     background-color: white;
-    width: 50%;
+    width: 66%;
     position: absolute;
     top: 40px;
-    left: 25%;
+    left: 17%;
     border: 1px solid #00000050;
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.5);
 }

@@ -1,30 +1,47 @@
 import React, {useState} from 'react';
 import Aux from '../../hoc/Auxiliary';
 import classes from './TopBar.css';
+import axios from 'axios';
 
-// const MapAPI = {
-//     key: 'pk.eyJ1IjoiaHJpdHZpa2thdXNoaWsiLCJhIjoiY2trcjZhb2ZoMDQ5bzJ3b2kya2U5dGMzYiJ9.SGtqS1r9nXypWmlBnwCbXQ',
-//     base: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
-// }
 
-const topBar = (props) => {
+const key = 'pk.eyJ1IjoiaHJpdHZpa2thdXNoaWsiLCJhIjoiY2trcjZhb2ZoMDQ5bzJ3b2kya2U5dGMzYiJ9.SGtqS1r9nXypWmlBnwCbXQ';
+const base = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+const call = (q) => `${base}${q}.json?access_token=${key}&autocomplete=true`;
+
+const topBar = () => {
 
     const [suggestions, setSuggestions] = useState([]);
     const [boxVisible, setBoxVisible] = useState(false);
 
     const searchingHandler = (event) => {
         const s = event.target.value;
-        // setQuery({s});
-        if(s) setSuggestions(["Suggestion #1","Suggestion #2","Suggestion #3","Suggestion #4","Suggestion #5"]);
-        else setSuggestions([]);
-        if(event.target.value) {
-            setBoxVisible(true);
-            console.log("setting");
+
+        if(s.length>=3){
+            console.log(call(s));
+            axios.get(call(s)).then( response => {
+                console.log(response.data.features[2].place_name);
+                setSuggestions(response.data.features.map(feature=>{
+                    return{
+                        id: feature.id,
+                        place_name: feature.place_name,
+                        text: feature.text,
+                        coordinates: feature.geometry.coordinates
+                    }
+                }));
+                setBoxVisible(true);
+            });
         }
-        else {
+        
+        if(!s) {
+            setSuggestions([]);
             setBoxVisible(false);
-            console.log("unsetting");
         }
+    }
+
+    const clickHandler = (place) => {
+        console.log(place.place_name);
+        console.log(place.id);
+        console.log(place.text);
     }
 
     return(
@@ -33,7 +50,9 @@ const topBar = (props) => {
                 <input className={classes.Box} onChange={searchingHandler} type="text" placeholder="Search for city..."/>
             </div>
             <div className={boxVisible?classes.SearchSuggestions:null}>
-                {suggestions.map(s => <div className={classes.suggestion}><p>{s}</p></div>)}
+                {suggestions.map(s => <div id={s.id} 
+                                        className={classes.suggestion}
+                                        onClick={() => clickHandler(s)}><p>{s.place_name}</p></div>)}
             </div>
         </Aux>
     )
