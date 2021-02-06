@@ -7,11 +7,15 @@ import MainWeather from '../../containers/MainWeather/MainWeather';
 
 const layout = (props) => {
     
-    const [place, setPlace] = useState({});
+    const [place, setPlace] = useState({
+        id: null,
+        place_name: "Waiting for input",
+        text: "Waiting for user to select place...",
+        coordinates: []
+    });
 
     const placeChangeHandler = (p) => {
         setPlace(p);
-        console.log(p);
     }
 
     return(

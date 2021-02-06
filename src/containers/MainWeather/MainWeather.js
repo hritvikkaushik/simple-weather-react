@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import Auxiliary from '../../hoc/Auxiliary';
 import Today from '../../components/TodaysWeather/TodaysWeather';
 import FiveDays from '../../components/FiveDays/FiveDays';
 import axios from 'axios';
@@ -11,9 +10,11 @@ const APIbase = 'http://api.openweathermap.org/data/2.5/';
 class MainWeather extends Component{
 
     state = {
-        ...this.props.place
+        weatherData: null,
+        weatherForecast: null,
+        weatherID: null
     }
-
+            
     static getDerivedStateFromProps(props, state){
         if(state !== props){
             return({...props.place});
@@ -21,32 +22,28 @@ class MainWeather extends Component{
         return state;
     }
 
-    weatherData = null;
-    weatherForecast = null;
-
-    componentDidUpdate() {
-        console.log("ComponentDidUpdate");
-        const latitude=Math.round(this.state.coordinates[1]);
-        const longitude=Math.round(this.state.coordinates[0]);
+    componentDidUpdate(){
+        console.log("Update");
+        const latitude=this.state.coordinates[1];
+        const longitude=this.state.coordinates[0];
         axios.get(`${APIbase}weather?lat=${latitude}&lon=${longitude}&appid=${APIkey}&units=metric`)
             .then((response)=>{
-                console.log(response);
-                this.weatherData = response;
-            })
-        axios.get(`${APIbase}forecast?lat=${latitude}&lon=${longitude}&appid=${APIkey}&units=metric`)
-            .then((response)=>{
-                console.log(response);
-                this.weatherForecast = response;
+                console.log("Getting weather response");
+                console.log(response.data);
+                if(this.state.weatherID !== response.data.weather[0].id){
+                    this.setState({
+                        weatherData: response.data,
+                        weatherID: response.data.weather[0].id
+                    })
+                }
             })
     }
 
     render(){
-
-        console.log(this.state);
         return (
             <div className={classes.MainWeather}>
-                <Today weatherData={this.weatherData} place={this.state.text}/>
-                <FiveDays weatherForecast={this.weatherForecast}/>
+                <Today weatherData={this.state.weatherData} place={this.state.text}/>
+                <FiveDays weatherForecast={this.state.weatherForecast}/>
             </div>
         )
     }
