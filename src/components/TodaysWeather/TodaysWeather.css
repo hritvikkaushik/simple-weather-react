@@ -7,6 +7,7 @@
     border: 1px solid rgb(179, 171, 171);
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 #00000050;
+    background-color: white;
 }
 
 .today span{
