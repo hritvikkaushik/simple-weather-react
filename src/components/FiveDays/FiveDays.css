@@ -13,3 +13,13 @@
 .FiveDays span{
     margin-left: 12px;
 }
+
+.FiveDays p{
+    margin: 4% 10%;
+    font-size: smaller;
+    text-align: left;
+}
+
+.FiveDays h5{
+    margin: 10px 0 5px 0;
+}
