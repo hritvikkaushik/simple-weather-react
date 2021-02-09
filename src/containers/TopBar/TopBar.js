@@ -8,10 +8,12 @@ class topBar extends Component {
     suggestions: [],
     boxVisible: false,
     place: {},
+    boxValue: null,
   };
 
   searchingHandler = (event) => {
     const s = event.target.value;
+    this.setState({ boxValue: s });
 
     if (s.length >= 3) {
       axios.get(`${s}.json`).then((response) => {
@@ -39,7 +41,12 @@ class topBar extends Component {
 
   clickHandler = (place) => {
     this.props.placeSetter(place);
-    this.setState({ place: place, boxVisible: false, suggestions: [] });
+    this.setState({
+      place: place,
+      boxVisible: false,
+      suggestions: [],
+      boxValue: place.place_name,
+    });
   };
 
   render() {
@@ -62,6 +69,7 @@ class topBar extends Component {
         <div className={classes.Bar}>
           <input
             className={classes.Box}
+            value={this.state.boxValue}
             onChange={this.searchingHandler}
             type="text"
             placeholder="Search for city..."
